@@ -182,9 +182,12 @@ def home():
     if 'role' in session:
         if session['role'] == 'admin': 
             return redirect(url_for('admin_dashboard'))
+        # Assumes you have dashboard routes like 'member_dashboard', 'bod_dashboard'
         return redirect(url_for(f"{session['role']}_dashboard"))
     
     return render_template('home.html', events=active_events)
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
