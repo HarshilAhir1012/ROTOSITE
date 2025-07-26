@@ -3,9 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Rotaract Club LJIET</title>
+    <title>Members Login | Rotaract Club LJIET</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary-blue: #4A90E2;
+            --accent-green: #22C55E;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light-gray: #f4f7f6;
+            --border-color: #e1e5e9;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --radius: 10px;
+            --transition: all 0.3s ease-in-out;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,41 +26,31 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #e0eafc, #cfdef3);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
+            padding: 1rem;
         }
 
         .container {
-            position: relative;
-            z-index: 10;
             width: 100%;
-            max-width: 400px;
-            padding: 2rem;
+            max-width: 420px;
         }
 
         .login-card {
             background: white;
-            border-radius: 12px;
-            padding: 3rem 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            animation: slideInUp 0.8s ease-out;
-            position: relative;
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px var(--shadow-color);
+            animation: fadeIn 0.8s ease-out;
         }
 
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .login-header {
@@ -56,15 +59,14 @@
         }
 
         .login-title {
-            font-size: 1.8rem;
-            color: #333;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+            font-size: 2rem;
+            color: var(--text-dark);
+            font-weight: 700;
         }
 
         .login-subtitle {
-            color: #666;
-            font-size: 0.95rem;
+            color: var(--text-light);
+            font-size: 1rem;
         }
 
         .form-group {
@@ -72,246 +74,173 @@
             position: relative;
         }
 
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #555;
-            font-weight: 500;
-            font-size: 0.9rem;
+        .form-input-wrapper {
+            position: relative;
         }
 
         .form-input {
             width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
+            padding: 1rem 1rem 1rem 3.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
             font-size: 1rem;
-            transition: all 0.3s ease;
-            background: white;
+            transition: var(--transition);
         }
 
         .form-input:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
         }
 
         .form-icon {
             position: absolute;
-            left: 1rem;
+            left: 1.25rem;
             top: 50%;
             transform: translateY(-50%);
-            color: #999;
-            transition: color 0.3s ease;
+            color: #aaa;
+            transition: var(--transition);
         }
 
         .form-input:focus + .form-icon {
-            color: #667eea;
+            color: var(--primary-blue);
         }
 
-        .role-select {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: white;
+        #password-toggle {
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
             cursor: pointer;
         }
-
-        .role-select:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        
+        .role-select {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2220%22%20height%3D%2220%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M5%208l5%205%205-5z%22%20fill%3D%22%23aaa%22/%3E%3C/svg%3E');
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
         }
 
         .login-btn {
             width: 100%;
             padding: 1rem;
-            background: #667eea;
+            background: var(--primary-blue);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: var(--radius);
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 1.5rem;
+            transition: var(--transition);
+            margin-top: 1rem;
         }
 
         .login-btn:hover {
-            background: #5a67d8;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            background: #3a7ac8;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
         }
 
-        .visitor-section {
+        .extra-links {
             text-align: center;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e1e5e9;
-        }
-
-        .visitor-text {
-            color: #666;
-            margin-bottom: 1rem;
+            margin-top: 1.5rem;
             font-size: 0.9rem;
         }
 
-        .visitor-btn {
-            color: #667eea;
+        .extra-links a {
+            color: var(--primary-blue);
             text-decoration: none;
-            font-weight: 600;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            display: inline-block;
+            font-weight: 500;
+        }
+        .extra-links a:hover {
+            text-decoration: underline;
         }
 
-        .visitor-btn:hover {
-            background: rgba(102, 126, 234, 0.1);
-            transform: translateY(-2px);
-        }
+        .flash-messages { margin-bottom: 1.5rem; }
+        .flash-message { padding: 1rem; border-radius: var(--radius); margin-bottom: 1rem; }
+        .flash-success { background: #d1fae5; color: #065f46; border: 1px solid #a7f3d0; }
+        .flash-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
 
-        .register-link {
-            text-align: center;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid #e1e5e9;
-        }
-
-        .register-link a {
-            color: #667eea;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .register-link a:hover {
-            color: #5a67d8;
-        }
-
-        .flash-messages {
-            margin-bottom: 1.5rem;
-        }
-
-        .flash-message {
-            padding: 1rem;
-            border-radius: 8px;
-            margin-bottom: 0.5rem;
-            animation: slideInDown 0.5s ease-out;
-        }
-
-        .flash-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .flash-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        @keyframes slideInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .container {
-                padding: 1rem;
-            }
-            
-            .login-card {
-                padding: 2rem 1.5rem;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="login-card">
             <div class="login-header">
-                <h1 class="login-title">Login Page</h1>
-                <p class="login-subtitle">Access your club dashboard.</p>
+                <h1 class="login-title">Member Login</h1>
+                <p class="login-subtitle">Welcome back to the club!</p>
             </div>
 
-            <!-- Flash Messages -->
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <div class="flash-messages">
                         {% for category, message in messages %}
-                            <div class="flash-message flash-{{ category }}">
-                                {{ message }}
-                            </div>
+                            <div class="flash-message flash-{{ category }}">{{ message }}</div>
                         {% endfor %}
                     </div>
                 {% endif %}
             {% endwith %}
 
-            <form method="POST">
+            <form method="POST" action="{{ url_for('login') }}">
                 <div class="form-group">
-                    <label class="form-label" for="username">Username</label>
-                    <input 
-                        type="text" 
-                        id="username" 
-                        name="username" 
-                        class="form-input" 
-                        required
-                        placeholder="Enter your username"
-                    >
-                    <i class="fas fa-user form-icon"></i>
+                    <div class="form-input-wrapper">
+                        <input type="text" id="username" name="username" class="form-input" required placeholder="Username">
+                        <i class="fas fa-user form-icon"></i>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="password">Password</label>
-                    <input 
-                        type="password" 
-                        id="password" 
-                        name="password" 
-                        class="form-input" 
-                        required
-                        placeholder="Enter your password"
-                    >
-                    <i class="fas fa-lock form-icon"></i>
+                    <div class="form-input-wrapper">
+                        <input type="password" id="password" name="password" class="form-input" required placeholder="Password">
+                        <i class="fas fa-lock form-icon"></i>
+                        <i class="fas fa-eye" id="password-toggle"></i>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label" for="role">Select Role</label>
-                    <select id="role" name="role" class="role-select" required>
-                        <option value="">Choose your role</option>
-                        <option value="admin">Admin</option>
-                        <option value="member">Member</option>
-                        <option value="bod">BOD</option>
-                    </select>
-                    <i class="fas fa-users form-icon"></i>
+                     <div class="form-input-wrapper">
+                        <select id="role" name="role" class="role-select" required>
+                            <option value="" disabled selected>Select your role</option>
+                            {% for r in roles %}
+                                <option value="{{ r }}">{{ r.capitalize() }}</option>
+                            {% endfor %}
+                        </select>
+                        <i class="fas fa-users form-icon"></i>
+                    </div>
                 </div>
 
-                <button type="submit" class="login-btn">
-                    Login Securely
-                </button>
+                <button type="submit" class="login-btn">Sign In</button>
             </form>
 
-            <div class="visitor-section">
-                <p class="visitor-text">Are you a visitor?</p>
-                <a href="/" class="visitor-btn">
-                    Continue to the Main Website →
-                </a>
-            </div>
-
-            <div class="register-link">
-                <p>Don't have an account? <a href="/register">Register here</a></p>
+            <div class="extra-links">
+                <a href="/">Forgot Password?</a> | <a href="/register">Create an Account</a>
             </div>
         </div>
     </div>
+
+    <script>
+        const passwordInput = document.getElementById('password');
+        const passwordToggle = document.getElementById('password-toggle');
+
+        passwordToggle.addEventListener('click', () => {
+            // Toggle the type attribute
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle the icon
+            passwordToggle.classList.toggle('fa-eye');
+            passwordToggle.classList.toggle('fa-eye-slash');
+        });
+    </script>
 </body>
 </html>

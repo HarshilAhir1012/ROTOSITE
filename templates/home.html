@@ -31,109 +31,107 @@
         font-family: 'Poppins', sans-serif;
         background: var(--bg-white);
         color: var(--text-dark);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
         line-height: 1.6;
       }
-      header {
-        width: 100%;
-        background: var(--bg-white);
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 1000;
-        box-shadow: var(--shadow);
-      }
-      .navbar {
-        max-width: 1200px;
-        margin: 0 auto;
-        height: var(--nav-height);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 2rem;
-      }
+      .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+      header { width: 100%; background: var(--bg-white); position: fixed; top: 0; left: 0; z-index: 1000; box-shadow: var(--shadow); }
+      .navbar { max-width: 1200px; margin: 0 auto; height: var(--nav-height); display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; }
       .logo { font-size: 1.6rem; font-weight: 700; color: var(--primary-blue); }
       .nav-links { list-style: none; display: flex; align-items: center; gap: 2.5rem; }
-      .nav-links li a {
-        color: var(--text-dark);
-        text-decoration: none;
-        font-weight: 500;
-        font-size: 0.95rem;
-        position: relative;
-        cursor: pointer;
-        transition: color var(--transition);
-      }
-      .nav-links li a::after {
-        content: ''; display: block; width: 0; height: 2px;
-        background: var(--primary-blue);
-        transition: width var(--transition);
-        position: absolute; left: 0; bottom: -4px;
-      }
+      .nav-links li a { color: var(--text-dark); text-decoration: none; font-weight: 500; position: relative; cursor: pointer; transition: color var(--transition); }
+      .nav-links li a::after { content: ''; display: block; width: 0; height: 2px; background: var(--primary-blue); transition: width var(--transition); position: absolute; left: 0; bottom: -4px; }
       .nav-links li a:hover, .nav-links li a.active { color: var(--primary-blue); }
       .nav-links li a:hover::after, .nav-links li a.active::after { width: 100%; }
-      .nav-links .cta-btn {
-        background: var(--primary-blue); color: white;
-        padding: 0.6rem 1.5rem; border-radius: var(--radius);
-        font-weight: 600; box-shadow: var(--shadow);
-      }
+      .nav-links .cta-btn { background: var(--primary-blue); color: white; padding: 0.6rem 1.5rem; border-radius: var(--radius); font-weight: 600; box-shadow: var(--shadow); }
       .hamburger { display: none; }
-      main { flex: 1; padding-top: var(--nav-height); }
-      footer { background: var(--bg-light); padding: 2rem 0; text-align: center; }
+      main { padding-top: var(--nav-height); }
       
+      /* Footer Styles */
+      footer { background: var(--bg-light); padding: 2rem 0; text-align: center; border-top: 1px solid #E5E7EB;}
+      .footer-content { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+      .footer-social { margin-top: 1rem; display: flex; justify-content: center; gap: 1.5rem; }
+      .footer-social a { color: var(--text-muted); font-size: 1.5rem; transition: all var(--transition); }
+      .footer-social a:hover { color: var(--primary-blue); transform: translateY(-3px); }
+
       /* Single Page App Styles */
       .page-section { display: none; }
       .page-section.active { display: block; animation: fadeIn 0.5s ease-in-out; }
-      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
       /* Hero Section */
-      .hero {
-        min-height: 80vh; display: flex; flex-direction: column;
-        align-items: center; justify-content: center; text-align: center;
-        padding: 2rem 1rem;
-      }
-      .hero h1 { font-size: 3.5rem; margin-bottom: 1.5rem; }
-      .hero p { font-size: 1.25rem; max-width: 600px; margin-bottom: 2.5rem; }
-      .hero-buttons { display: flex; gap: 1rem; }
-      .cta-btn {
-        padding: 1rem 2rem; border-radius: var(--radius); text-decoration: none;
-        font-weight: 600; background: var(--accent-green); color: white;
-      }
-      .cta-btn.secondary { background: transparent; color: var(--primary-blue); border: 2px solid var(--primary-blue); }
-
-      /* About Page Specific Styles */
-      .about-section { max-width: 800px; margin: 3rem auto; padding: 2.5rem; background: var(--bg-white); box-shadow: var(--shadow); border-radius: var(--radius); }
-      .about-section h2 { color: var(--primary-blue); margin-bottom: 1rem; }
+      #page-home { padding: 0; }
+      .hero { min-height: 90vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2rem 1rem; color: white; position: relative; }
+      .hero-content { position: relative; z-index: 2; }
       
-      /* Events Page Specific Styles */
-      .events-filter { display: flex; justify-content: center; gap: 1rem; margin: 3rem 0; }
-      .filter-btn { padding: 0.75rem 1.5rem; border-radius: var(--radius); border: 2px solid #E5E7EB; cursor: pointer; }
-      .filter-btn.active { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
-      .events-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto 3rem; padding: 0 2rem; }
-      .event-card { background: var(--bg-white); padding: 1.5rem; box-shadow: var(--shadow); border-radius: var(--radius); }
+      .hero h1 {
+        font-size: 3.8rem;
+        font-weight: 700;
+        color: var(--primary-blue);
+        text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.3);
+      }
+      .hero p {
+        font-size: 1.3rem;
+        max-width: 600px;
+        margin: 1rem 0 2.5rem;
+        color: var(--text-dark);
+        font-weight: 500;
+        text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+      }
+      .cta-btn.secondary {
+        background: var(--primary-blue);
+        color: white;
+        border: 2px solid var(--primary-blue);
+      }
+      .cta-btn.secondary:hover {
+        background: #1D4ED8;
+        border-color: #1D4ED8;
+      }
 
-      /* Gallery Page Specific Styles */
-      .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; max-width: 1100px; margin: 0 auto 2.5rem; }
-      .gallery-item img { width: 100%; display: block; }
+      /* === ALIGNMENT FIX STARTS HERE === */
+      .hero-buttons { 
+        display: flex; 
+        gap: 1rem;
+        justify-content: center; /* This centers the buttons */
+      }
+      /* === ALIGNMENT FIX ENDS HERE === */
+
+      .cta-btn { padding: 1rem 2rem; border-radius: var(--radius); text-decoration: none; font-weight: 600; background: var(--accent-green); color: white; transition: all var(--transition); }
+      .cta-btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
       
-      /* Contact Page Specific Styles */
-      .contact-section { max-width: 1100px; margin: 2.5rem auto; }
-      .contact-form-container { display: flex; flex-wrap: wrap; gap: 2.5rem; }
-      .contact-form, .contact-info { flex: 1; }
+      .content-section { padding: 4rem 0; }
+      .section-header { text-align: center; margin-bottom: 3rem; }
+      .section-header h2 { font-size: 2.5rem; color: var(--primary-blue); }
+      .section-header p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+      
+      .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+      .card { background: var(--bg-white); padding: 2.5rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; transition: all var(--transition); border: 1px solid #E5E7EB; }
+      .card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+      .card .icon { width: 70px; height: 70px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 2rem; color: white; background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));}
+      .card h3 { font-size: 1.5rem; margin-bottom: 1rem; }
+
+      .timeline-container { position: relative; max-width: 1000px; margin: auto; }
+      .timeline-container::after { content: ''; position: absolute; width: 4px; background: #E5E7EB; top: 0; bottom: 0; left: 50%; margin-left: -2px; }
+      .timeline-item { padding: 10px 40px; position: relative; width: 50%; }
+      .timeline-item.left { left: 0; }
+      .timeline-item.right { left: 50%; }
+      .timeline-item::after { content: ''; position: absolute; width: 20px; height: 20px; right: -10px; background-color: white; border: 4px solid var(--primary-blue); top: 15px; border-radius: 50%; z-index: 1; }
+      .timeline-item.right::after { left: -10px; }
+      .timeline-content { padding: 20px 30px; background: var(--bg-light); border-radius: var(--radius); box-shadow: var(--shadow); }
+
+      .contact-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: start; }
       .form-group { display: flex; flex-direction: column; margin-bottom: 1rem; }
-      .form-group input, .form-group textarea { padding: 0.75rem; border: 1px solid #ccc; border-radius: var(--radius); }
-
-      /* Login Page Specific Styles */
-      .login-section { display: flex; align-items: center; justify-content: center; min-height: 70vh; }
-      .login-form { background: var(--bg-white); padding: 2.5rem; box-shadow: var(--shadow-lg); border-radius: var(--radius); width: 100%; max-width: 400px; }
+      .form-group input, .form-group textarea { padding: 0.8rem; border: 1px solid #ccc; border-radius: var(--radius); font-family: 'Poppins', sans-serif; }
       
-      /* Responsive */
       @media (max-width: 700px) {
         .nav-links { display: none; position: fixed; top: var(--nav-height); right: 0; background: white; flex-direction: column; width: 250px; height: 100vh; padding-top: 2rem; box-shadow: var(--shadow-lg); }
         .nav-links.open { display: flex; }
         .hamburger { display: flex; flex-direction: column; gap: 5px; cursor: pointer; }
         .hamburger span { width: 24px; height: 2px; background: var(--text-dark); }
+        .timeline-container::after { left: 15px; }
+        .timeline-item { width: 100%; padding-left: 50px; padding-right: 15px; }
+        .timeline-item.right { left: 0%; }
+        .timeline-item.left::after, .timeline-item.right::after { left: 5px; }
+        .contact-grid { grid-template-columns: 1fr; }
       }
     </style>
 </head>
@@ -141,14 +139,13 @@
 
     <header>
         <nav class="navbar">
-            <div class="logo">Rotaract Club of NLJIET</div>
+            <div class="logo">Rotaract NLJIET</div>
             <ul class="nav-links" id="navLinks">
                 <li><a data-page="home" class="active">Home</a></li>
                 <li><a data-page="about">About</a></li>
-                <li><a data-page="events">Events</a></li>
-                <li><a data-page="gallery">Gallery</a></li>
-                <li><a data-page="projects">Projects</a></li>
                 <li><a data-page="timeline">Timeline</a></li>
+                <li><a data-page="events">Events</a></li>
+                <li><a data-page="projects">Projects</a></li>
                 <li><a data-page="contact">Contact</a></li>
                 <li><a href="/login" class="cta-btn">Members Login</a></li>
             </ul>
@@ -161,87 +158,111 @@
     <main>
         <section id="page-home" class="page-section active">
             <div id="hero-background" class="hero">
-                <h1>Inspire To Impact</h1>
-                <p>Rotaract Club of NLJ Institute of Engineering & Technology is committed to innovation, service, and leadership.</p>
-                <div class="hero-buttons">
-                    <a href="#" data-page="about" class="cta-btn page-link">Know More</a>
-                    <a href="#" data-page="contact" class="cta-btn secondary page-link">Join Us</a>
+                <div class="hero-content">
+                    <h1>Inspire To Impact</h1>
+                    <p>Rotaract Club of NLJ Institute of Engineering & Technology is committed to innovation, service, and leadership.</p>
+                    <div class="hero-buttons">
+                        <a href="#" data-page="about" class="cta-btn page-link">Know More</a>
+                        <a href="#" data-page="contact" class="cta-btn secondary page-link">Join Us</a>
+                    </div>
                 </div>
             </div>
-        </section>
-
-        <section id="page-about" class="page-section">
-            <div class="about-section">
-                <h2>Our Vision</h2>
-                <p>To inspire and empower young leaders to create a lasting positive impact in our community and the world through evolution, impact, and community service.</p>
-            </div>
-            <div class="about-section">
-                <h2>Our Mission</h2>
-                <p>To provide opportunities for personal and professional development, foster fellowship, and serve society through impactful projects.</p>
-            </div>
-        </section>
-
-        <section id="page-events" class="page-section">
-            <div class="events-filter">
-                <button class="filter-btn active" data-filter="upcoming">Upcoming</button>
-                <button class="filter-btn" data-filter="past">Past</button>
-            </div>
-            <div class="events-grid">
-                <div class="event-card" data-type="upcoming"><h3>Pasti Se Pathshala</h3><p>July 4, 2025</p></div>
-                <div class="event-card" data-type="upcoming"><h3>President-Secretary Meet</h3><p>July 1, 2025</p></div>
-                <div class="event-card" data-type="past"><h3>2024-25 Impactful Events</h3><p>2024-25</p></div>
-            </div>
-        </section>
-
-        <section id="page-gallery" class="page-section">
-             <div class="gallery-grid">
-                <div class="gallery-item"><img src="https://via.placeholder.com/300x200?text=Project+1" alt="Project 1"></div>
-                <div class="gallery-item"><img src="https://via.placeholder.com/300x200?text=Social+Event" alt="Social Event"></div>
-                <div class="gallery-item"><img src="https://via.placeholder.com/300x200?text=Campaign" alt="Campaign"></div>
-             </div>
-        </section>
-        
-        <section id="page-projects" class="page-section">
-            <div class="about-section">
-                <h2>Ongoing Projects</h2>
-                <p>Leadership Development: President-Secretary Meet with over 20 other clubs.</p>
-                <h2>Completed Projects</h2>
-                <p>Pasti Se Pathshala: Education initiative at a street school.</p>
-            </div>
-        </section>
-
-        <section id="page-timeline" class="page-section">
-             <div class="about-section">
-                <h2>Our Journey</h2>
-                <p><strong>2025:</strong> Inspire to Impact - President Rtr. Dhwanit Mistry launched 'Pasti Se Pathshala'.</p>
-                <p><strong>2024:</strong> Collaboration & Growth - Led by Rtr. Manan Bhatt, the club organized impactful events.</p>
-             </div>
-        </section>
-
-        <section id="page-contact" class="page-section">
-            <div class="contact-section">
-                <div class="contact-form-container">
-                    <form class="contact-form">
-                        <h2>Contact Us</h2>
-                        <div class="form-group"><label>Name</label><input type="text" required></div>
-                        <div class="form-group"><label>Email</label><input type="email" required></div>
-                        <div class="form-group"><label>Message</label><textarea rows="4"></textarea></div>
-                        <button type="submit" class="cta-btn">Send</button>
-                    </form>
-                    <div class="contact-info">
-                        <h3>Club Info</h3>
-                        <p><i class="fa fa-map-marker-alt"></i> NLJ Institute, Ahmedabad</p>
-                        <p><i class="fa fa-envelope"></i> info@rotaractnljiet.org</p>
+            <div class="content-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2>Featured Events</h2>
+                        <p>Discover our upcoming and recent impactful initiatives.</p>
+                    </div>
+                    <div class="card-grid">
+                        <div class="card"><div class="icon"><i class="fa fa-graduation-cap"></i></div><h3>Pasti Se Pathshala</h3><p>Education initiative at a street school, distributing 90 stationery kits.</p></div>
+                        <div class="card"><div class="icon"><i class="fa fa-lightbulb"></i></div><h3>Hekatron Ideathon</h3><p>Our signature hackathon to promote innovation and problem-solving.</p></div>
+                        <div class="card"><div class="icon"><i class="fa fa-tint"></i></div><h3>Blood Donation Drive</h3><p>Campus-wide blood donation camp, saving lives and spreading awareness.</p></div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <section id="page-about" class="page-section content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>About Our Club</h2>
+                    <p>Empowering youth leadership through service and community impact.</p>
+                </div>
+                <div class="card-grid">
+                    <div class="card"><div class="icon"><i class="fa fa-eye"></i></div><h3>Our Vision</h3><p>To inspire and empower young leaders to create a lasting positive impact in our community and the world.</p></div>
+                    <div class="card"><div class="icon"><i class="fa fa-bullseye"></i></div><h3>Our Mission</h3><p>To provide opportunities for personal and professional development, and to serve society through impactful projects.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-timeline" class="page-section content-section" style="background: var(--bg-light);">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Our Journey</h2>
+                    <p>From foundation to evolution, our path of growth and service.</p>
+                </div>
+                <div class="timeline-container">
+                    <div class="timeline-item left"><div class="timeline-content"><h3>2025: Inspire to Impact</h3><p>President Rtr. Dhwanit Mistry launched 'Pasti Se Pathshala' and emphasized education for all.</p></div></div>
+                    <div class="timeline-item right"><div class="timeline-content"><h3>2024: Collaboration & Growth</h3><p>Led by Rtr. Manan Bhatt, the club organized impactful events and built strong fellowship.</p></div></div>
+                    <div class="timeline-item left"><div class="timeline-content"><h3>2023: Foundation Year</h3><p>The club was formed with the goal of growth, leadership, and community impact.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-events" class="page-section content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Club Events</h2>
+                    <p>Engaging our community through meaningful activities.</p>
+                </div>
+                <div class="card-grid">
+                    <div class="card"><div class="icon"><i class="fa fa-graduation-cap"></i></div><h3>Pasti Se Pathshala</h3><p>Education initiative at a street school operated for over 25 years by Kamalbhai.</p></div>
+                    <div class="card"><div class="icon"><i class="fa fa-users"></i></div><h3>Leadership Development</h3><p>President-Secretary Meet with over 20 other clubs to foster collaboration.</p></div>
+                    <div class="card"><div class="icon"><i class="fa fa-handshake"></i></div><h3>Zonal Collaborations</h3><p>Engaged in collaborations with over 20 other clubs, fostering growth and learning.</p></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="page-projects" class="page-section content-section" style="background: var(--bg-light);">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Club Projects</h2>
+                    <p>Taking action to make a tangible difference in our community.</p>
+                </div>
+                <div class="card-grid">
+                    <div class="card"><div class="icon"><i class="fa fa-star"></i></div><h3>2024-25 Impactful Events</h3><p>Under past leadership, organized numerous events and fostered strong fellowship.</p></div>
+                    <div class="card"><div class="icon"><i class="fa fa-handshake"></i></div><h3>Zonal Collaborations</h3><p>Engaged with other clubs for collective growth and learning.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-contact" class="page-section content-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Get In Touch</h2>
+                    <p>We'd love to hear from you. Reach out with questions or join our mission.</p>
+                </div>
+                <div class="contact-grid">
+                    <form class="card">
+                        <div class="form-group"><label>Name</label><input type="text" required></div>
+                        <div class="form-group"><label>Email</label><input type="email" required></div>
+                        <div class="form-group"><label>Message</label><textarea rows="4"></textarea></div>
+                        <button type="submit" class="cta-btn">Send Message</button>
+                    </form>
+                    <div class="card">
+                        <h3>Contact Info</h3>
+                        <p><i class="fa fa-map-marker-alt"></i> NLJ Institute, Ahmedabad</p>
+                        <p><i class="fa fa-envelope"></i> info@rotaractnljiet.org</p>
+                        <p><i class="fa fa-phone"></i> +91 12345 67890</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer>
         <div class="footer-content">
-            <p>&copy; 2025 Rotaract Club of NLJIET. All rights reserved.</p>
+            <p>&copy; 2025 Rotaract Club of NLJ Institute of Engineering & Technology. All rights reserved.</p>
             <div class="footer-social">
                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
@@ -253,73 +274,53 @@
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const navLinks = document.querySelectorAll('.nav-links a[data-page]');
+        const pageLinks = document.querySelectorAll('.page-link');
         const pageSections = document.querySelectorAll('.page-section');
         const hamburger = document.getElementById('hamburger');
         const navMenu = document.getElementById('navLinks');
-        const internalPageLinks = document.querySelectorAll('.page-link');
 
-        // Function to switch between pages
         function showPage(pageId) {
           if (!pageId) return;
-
-          pageSections.forEach(section => {
-            section.classList.remove('active');
-          });
-          
+          pageSections.forEach(section => section.classList.remove('active'));
           const targetPage = document.getElementById('page-' + pageId);
-          if (targetPage) {
-            targetPage.classList.add('active');
-          }
-
+          if(targetPage) targetPage.classList.add('active');
           navLinks.forEach(link => {
             link.classList.remove('active');
-            if (link.getAttribute('data-page') === pageId) {
-              link.classList.add('active');
-            }
+            if (link.getAttribute('data-page') === pageId) link.classList.add('active');
           });
           window.scrollTo(0, 0);
         }
 
-        // Add click listeners to main navigation
         navLinks.forEach(link => {
           link.addEventListener('click', (e) => {
             e.preventDefault();
             const pageId = e.target.getAttribute('data-page');
             showPage(pageId);
-            if (window.innerWidth <= 700) {
-              navMenu.classList.remove('open');
-            }
+            if (window.innerWidth <= 700) navMenu.classList.remove('open');
           });
         });
         
-        // Add click listeners to internal page links (e.g., "Know More" button)
-        internalPageLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const pageId = e.target.getAttribute('data-page');
-                showPage(pageId);
-            });
+        pageLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pageId = e.target.getAttribute('data-page');
+            showPage(pageId);
+          });
         });
 
-        // Hamburger menu toggle
-        hamburger.addEventListener('click', () => {
-          navMenu.classList.toggle('open');
-        });
-
-        // Show home page by default
+        hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
         showPage('home');
 
-        // Initialize Vanta.js
+        // Vanta.js Animation
         if (typeof VANTA !== 'undefined' && VANTA.CLOUDS) {
           VANTA.CLOUDS({
             el: "#hero-background",
-            mouseControls: true,
-            touchControls: true,
-            skyColor: 0x2563eb,
-            cloudColor: 0xffffff,
+            mouseControls: true, touchControls: true, skyColor: 0x2563eb, cloudColor: 0xffffff,
           });
         }
       });
     </script>
+    <script src="https://cdn.botpress.cloud/webchat/v3.2/inject.js" defer></script>
+    <script src="https://files.bpcontent.cloud/2025/07/18/11/20250718112401-PECXGJWD.js" defer></script>
 </body>
 </html>
