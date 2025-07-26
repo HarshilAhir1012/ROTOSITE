@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements - Rotaract Club LJIET</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a202c;
+            color: #e2e8f0;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #2d3748;
+            color: white;
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #4a5568;
+        }
+
+        .sidebar-header {
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid #4a5568;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-header h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #48bb78;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .member-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            text-align: center;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: #48bb78;
+            transform: translateX(5px);
+        }
+
+        .nav-item i {
+            margin-right: 1rem;
+            width: 20px;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            background: #e53e3e;
+            border: 1px solid #e53e3e;
+        }
+
+        .logout-btn:hover {
+            background: #c53030;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-input {
+            width: 100%;
+            background: #1a202c;
+            border: 1px solid #4a5568;
+            border-radius: 6px;
+            padding: 0.75rem 1rem;
+            color: #e2e8f0;
+            font-size: 1rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #48bb78;
+        }
+
+        .search-input::placeholder {
+            color: #718096;
+        }
+
+        /* Announcements Grid */
+        .announcements-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .announcement-card {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .announcement-card:hover {
+            border-color: #48bb78;
+            box-shadow: 0 4px 20px rgba(72, 187, 120, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .announcement-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .announcement-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .announcement-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .announcement-date {
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        .announcement-author {
+            color: #48bb78;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .pinned-badge {
+            background: #f59e0b;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .announcement-content {
+            color: #a0aec0;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .announcement-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #4a5568;
+        }
+
+        .announcement-tags {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: #4a5568;
+            color: #e2e8f0;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .announcement-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #38a169;
+        }
+
+        .btn-secondary {
+            background: #4a5568;
+            color: #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #2d3748;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #a0aec0;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Rotaract Admin</h2>
+                <div class="member-avatar">
+                    {{ session.username[0].upper() }}
+                </div>
+                <div class="member-name">{{ session.username }}</div>
+                <div class="member-role">Club Member</div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/member" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+                <a href="/member/events" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Event Management
+                </a>
+                <a href="/member/announcements" class="nav-item active">
+                    <i class="fas fa-bullhorn"></i>
+                    Announcements
+                </a>
+                <a href="/member/profile" class="nav-item">
+                    <i class="fas fa-user-friends"></i>
+                    Member Management
+                </a>
+                <a href="/member/certificates" class="nav-item">
+                    <i class="fas fa-certificate"></i>
+                    Certificates
+                </a>
+                <a href="/member/activity" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Activity
+                </a>
+                <a href="/member/settings" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+                <a href="/logout" class="nav-item logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Announcements</h1>
+                    <p class="page-subtitle">Stay updated with club announcements</p>
+                </div>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search announcements..." id="searchInput">
+            </div>
+
+            <!-- Announcements -->
+            {% if announcements %}
+                <div class="announcements-grid">
+                    {% for announcement in announcements %}
+                    <div class="announcement-card">
+                        <div class="announcement-header">
+                            <div>
+                                <h3 class="announcement-title">{{ announcement.title }}</h3>
+                                <div class="announcement-meta">
+                                    <span class="announcement-date">
+                                        <i class="fas fa-calendar"></i>
+                                        {{ announcement.created_at.split(' ')[0] }}
+                                    </span>
+                                    <span class="announcement-author">
+                                        <i class="fas fa-user"></i>
+                                        {{ announcement.created_by }}
+                                    </span>
+                                </div>
+                            </div>
+                            {% if announcement.pinned %}
+                                <div class="pinned-badge">Pinned</div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="announcement-content">
+                            {{ announcement.content }}
+                        </div>
+
+                        <div class="announcement-footer">
+                            <div class="announcement-tags">
+                                {% for audience in announcement.audience %}
+                                    <span class="tag">{{ audience }}</span>
+                                {% endfor %}
+                            </div>
+                            <div class="announcement-actions">
+                                {% if announcement.attachment %}
+                                    <a href="#" class="btn btn-secondary">
+                                        <i class="fas fa-paperclip"></i> Attachment
+                                    </a>
+                                {% endif %}
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fas fa-eye"></i> View Details
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-bullhorn"></i>
+                    <h3>No Announcements</h3>
+                    <p>There are no announcements available at the moment.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const announcementCards = document.querySelectorAll('.announcement-card');
+            
+            announcementCards.forEach(card => {
+                const title = card.querySelector('.announcement-title').textContent.toLowerCase();
+                const content = card.querySelector('.announcement-content').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || content.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold text-gray-800 mb-6">Admin Dashboard</h1>
+
+<!-- Stats Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    
+    <!-- Total Members Card -->
+    <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4">
+        <div class="bg-blue-100 p-3 rounded-full">
+            <svg class="w-6 h-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m-7.5-2.962A3.75 3.75 0 0 1 12 15v-2.25m-3.75 0a3.75 3.75 0 0 1 7.5 0v2.25a3.75 3.75 0 0 1-7.5 0v-2.25Z" />
+            </svg>
+        </div>
+        <div>
+            <p class="text-sm font-medium text-gray-500">Total Members</p>
+            <p class="text-3xl font-bold text-gray-800">{{ stats.total_members }}</p>
+        </div>
+    </div>
+
+    <!-- Upcoming Events Card -->
+    <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4">
+        <div class="bg-green-100 p-3 rounded-full">
+            <svg class="w-6 h-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0h18M-4.5 12h22.5" />
+            </svg>
+        </div>
+        <div>
+            <p class="text-sm font-medium text-gray-500">Upcoming Events</p>
+            <p class="text-3xl font-bold text-gray-800">{{ stats.upcoming_events }}</p>
+        </div>
+    </div>
+
+    <!-- Pending Approvals Card -->
+    <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4">
+        <div class="bg-yellow-100 p-3 rounded-full">
+            <svg class="w-6 h-6 text-yellow-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+            </svg>
+        </div>
+        <div>
+            <p class="text-sm font-medium text-gray-500">Pending Approvals</p>
+            <p class="text-3xl font-bold text-gray-800">{{ stats.pending_approvals }}</p>
+        </div>
+    </div>
+
+    <!-- Active BOD/Core Card -->
+    <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4">
+        <div class="bg-purple-100 p-3 rounded-full">
+            <svg class="w-6 h-6 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+            </svg>
+        </div>
+        <div>
+            <p class="text-sm font-medium text-gray-500">Active BOD/Core</p>
+            <p class="text-3xl font-bold text-gray-800">{{ stats.total_bod }}</p>
+        </div>
+    </div>
+
+    <!-- Total Donations Card -->
+    <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4">
+        <div class="bg-red-100 p-3 rounded-full">
+            <svg class="w-6 h-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+            </svg>
+        </div>
+        <div>
+            <p class="text-sm font-medium text-gray-500">Total Donations (₹)</p>
+            <p class="text-3xl font-bold text-gray-800">{{ stats.total_donations }}</p>
+        </div>
+    </div>
+
+    <!-- Announcements Posted Card -->
+    <div class="bg-white p-6 rounded-lg shadow-lg flex items-start space-x-4">
+        <div class="bg-indigo-100 p-3 rounded-full">
+            <svg class="w-6 h-6 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688 0-1.25-.562-1.25-1.25s.562-1.25 1.25-1.25h3.32c.688 0 1.25.562 1.25 1.25s-.562 1.25-1.25 1.25h-3.32Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 19.5h6c1.657 0 3-1.343 3-3V7.5c0-1.657-1.343-3-3-3H9c-1.657 0-3 1.343 3 3v9c0 1.657 1.343 3 3 3Z" />
+            </svg>
+        </div>
+        <div>
+            <p class="text-sm font-medium text-gray-500">Announcements</p>
+            <p class="text-3xl font-bold text-gray-800">{{ stats.announcements_posted }}</p>
+        </div>
+    </div>
+</div>
+
+<!-- NEW: Chart Section -->
+<div class="mt-8 bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-xl font-bold text-gray-800 mb-4">Monthly Attendance Rate (%)</h2>
+    <div class="h-80">
+        <canvas id="attendanceChart"></canvas>
+    </div>
+</div>
+
+<!-- Include Chart.js library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Script to initialize the chart -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // FIX: Assign the raw JSON object directly without using JSON.parse() and single quotes.
+        const chartData = {{ chart_data | safe }};
+        
+        const ctx = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    label: 'Attendance Rate',
+                    data: chartData.data,
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgba(59, 130, 246, 1)',
+                    borderWidth: 1,
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                let label = context.dataset.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed.y !== null) {
+                                    label += context.parsed.y + '%';
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

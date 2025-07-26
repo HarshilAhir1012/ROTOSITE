@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BOD Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Welcome, BOD {{ username }}!</h2>
+        <p>This is the BOD dashboard.</p>
+        <a class="logout-link" href="/logout">Logout</a>
+    </div>
+</body>
+</html> 

@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}{{ form_action }} Announcement{% endblock %}
+{% block content %}
+<h1 class="text-3xl font-bold text-gray-800 mb-6">{{ form_action }} Announcement</h1>
+
+<form method="POST" action="{{ url_for(request.endpoint, announcement_id=announcement.id if announcement else None) }}" enctype="multipart/form-data">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Main Content Column -->
+        <div class="lg:col-span-2 space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                    <input type="text" name="title" id="title" value="{{ announcement.title if announcement else '' }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>
+                </div>
+                <div class="mt-4">
+                    <label for="content" class="block text-sm font-medium text-gray-700">Content</label>
+                    <textarea name="content" id="content" rows="10" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required>{{ announcement.content if announcement else '' }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Column -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Settings</h3>
+                <!-- Expiry Date -->
+                <div class="mt-4">
+                    <label for="expiry_date" class="block text-sm font-medium text-gray-700">Expiry Date (Optional)</label>
+                    <input type="date" name="expiry_date" id="expiry_date" value="{{ announcement.expiry_date if announcement and announcement.expiry_date else '' }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                </div>
+                <!-- Pin to Top -->
+                <div class="mt-4 flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="pinned" name="pinned" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" {% if announcement and announcement.pinned %}checked{% endif %}>
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="pinned" class="font-medium text-gray-700">Pin to Top</label>
+                        <p class="text-gray-500">Keep this announcement at the top of the list.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow-lg">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Audience & Attachments</h3>
+                <!-- Target Audience -->
+                <div class="mt-4">
+                    <label for="audience" class="block text-sm font-medium text-gray-700">Target Audience</label>
+                    <select id="audience" name="audience" multiple class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm h-32">
+                        {% set selected_audience = announcement.audience if announcement else [] %}
+                        <option value="All Members" {% if 'All Members' in selected_audience %}selected{% endif %}>All Members</option>
+                        <option value="Core Team" {% if 'Core Team' in selected_audience %}selected{% endif %}>Core Team</option>
+                        <option value="Board of Directors" {% if 'Board of Directors' in selected_audience %}selected{% endif %}>Board of Directors</option>
+                        <option value="1st Year" {% if '1st Year' in selected_audience %}selected{% endif %}>1st Year</option>
+                        <option value="2nd Year" {% if '2nd Year' in selected_audience %}selected{% endif %}>2nd Year</option>
+                        <option value="3rd Year" {% if '3rd Year' in selected_audience %}selected{% endif %}>3rd Year</option>
+                    </select>
+                </div>
+                <!-- Attachment -->
+                <div class="mt-4">
+                    <label for="attachment" class="block text-sm font-medium text-gray-700">Attach File (Optional)</label>
+                    <input type="file" name="attachment" id="attachment" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                    {% if announcement and announcement.attachment %}
+                    <p class="text-xs text-gray-500 mt-2">Current file: <a href="{{ url_for('static', filename=announcement.attachment) }}" target="_blank" class="text-indigo-600">{{ announcement.attachment.split('/')[-1] }}</a></p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="mt-8 flex justify-end space-x-4">
+        <a href="{{ url_for('list_announcements') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition duration-300">
+            Cancel
+        </a>
+        <button type="submit" name="draft" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+            Save as Draft
+        </button>
+        <button type="submit" name="publish" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">
+            {{ 'Update & Publish' if announcement and announcement.status == 'published' else 'Publish' }}
+        </button>
+    </div>
+</form>
+{% endblock %}

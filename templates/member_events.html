@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Management - Rotaract Club LJIET</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a202c;
+            color: #e2e8f0;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #2d3748;
+            color: white;
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #4a5568;
+        }
+
+        .sidebar-header {
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid #4a5568;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-header h2 {
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #48bb78;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .member-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            text-align: center;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: #48bb78;
+            transform: translateX(5px);
+        }
+
+        .nav-item i {
+            margin-right: 1rem;
+            width: 20px;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            background: #e53e3e;
+            border: 1px solid #e53e3e;
+        }
+
+        .logout-btn:hover {
+            background: #c53030;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: none;
+            border: none;
+            color: #a0aec0;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #48bb78;
+            border-bottom-color: #48bb78;
+        }
+
+        .tab:hover {
+            color: #e2e8f0;
+        }
+
+        /* Event Cards */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .event-card {
+            background: #2d3748;
+            border: 1px solid #4a5568;
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .event-card:hover {
+            border-color: #48bb78;
+            box-shadow: 0 4px 20px rgba(72, 187, 120, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .event-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .event-date {
+            background: #48bb78;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 70px;
+            margin-right: 1rem;
+        }
+
+        .event-day {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .event-month {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .event-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-upcoming {
+            background: #3182ce;
+            color: white;
+        }
+
+        .status-past {
+            background: #718096;
+            color: white;
+        }
+
+        .event-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-description {
+            color: #a0aec0;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .event-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .event-detail {
+            display: flex;
+            align-items: center;
+            color: #a0aec0;
+            font-size: 0.9rem;
+        }
+
+        .event-detail i {
+            margin-right: 0.5rem;
+            color: #48bb78;
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-primary {
+            background: #48bb78;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #38a169;
+        }
+
+        .btn-secondary {
+            background: #4a5568;
+            color: #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #2d3748;
+        }
+
+        .btn i {
+            margin-right: 0.5rem;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #a0aec0;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #4a5568;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Rotaract Admin</h2>
+                <div class="member-avatar">
+                    {{ session.username[0].upper() }}
+                </div>
+                <div class="member-name">{{ session.username }}</div>
+                <div class="member-role">Club Member</div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/member" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+                <a href="/member/events" class="nav-item active">
+                    <i class="fas fa-calendar-alt"></i>
+                    Event Management
+                </a>
+                <a href="/member/announcements" class="nav-item">
+                    <i class="fas fa-bullhorn"></i>
+                    Announcements
+                </a>
+                <a href="/member/profile" class="nav-item">
+                    <i class="fas fa-user-friends"></i>
+                    Member Management
+                </a>
+                <a href="/member/certificates" class="nav-item">
+                    <i class="fas fa-certificate"></i>
+                    Certificates
+                </a>
+                <a href="/member/activity" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Activity
+                </a>
+                <a href="/member/settings" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+                <a href="/logout" class="nav-item logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Event Management</h1>
+                    <p class="page-subtitle">View and manage club events</p>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('upcoming')">
+                    <i class="fas fa-calendar-plus"></i> Upcoming Events
+                </button>
+                <button class="tab" onclick="showTab('past')">
+                    <i class="fas fa-history"></i> Past Events
+                </button>
+            </div>
+
+            <!-- Upcoming Events -->
+            <div id="upcoming-events" class="tab-content">
+                {% if upcoming_events %}
+                    <div class="events-grid">
+                        {% for event in upcoming_events %}
+                        <div class="event-card">
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="event-day">{{ event.date.split('-')[2] }}</div>
+                                    <div class="event-month">{{ (event.date.split('-')[1]|int)|month_name }}</div>
+                                </div>
+                                <div class="event-status status-upcoming">Upcoming</div>
+                            </div>
+                            <h3 class="event-title">{{ event.title }}</h3>
+                            <p class="event-description">{{ event.description }}</p>
+                            <div class="event-details">
+                                <div class="event-detail">
+                                    <i class="fas fa-clock"></i>
+                                    {{ event.time }}
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    {{ event.location }}
+                                </div>
+                            </div>
+                            <div class="event-actions">
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fas fa-eye"></i> View Details
+                                </a>
+                                <a href="#" class="btn btn-secondary">
+                                    <i class="fas fa-calendar-plus"></i> Register
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <h3>No Upcoming Events</h3>
+                        <p>There are no upcoming events scheduled at the moment.</p>
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Past Events -->
+            <div id="past-events" class="tab-content" style="display: none;">
+                {% if past_events %}
+                    <div class="events-grid">
+                        {% for event in past_events %}
+                        <div class="event-card">
+                            <div class="event-header">
+                                <div class="event-date">
+                                    <div class="event-day">{{ event.date.split('-')[2] }}</div>
+                                    <div class="event-month">{{ (event.date.split('-')[1]|int)|month_name }}</div>
+                                </div>
+                                <div class="event-status status-past">Past</div>
+                            </div>
+                            <h3 class="event-title">{{ event.title }}</h3>
+                            <p class="event-description">{{ event.description }}</p>
+                            <div class="event-details">
+                                <div class="event-detail">
+                                    <i class="fas fa-clock"></i>
+                                    {{ event.time }}
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    {{ event.location }}
+                                </div>
+                                <div class="event-detail">
+                                    <i class="fas fa-users"></i>
+                                    {{ event.attendance }} attendees
+                                </div>
+                            </div>
+                            <div class="event-actions">
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fas fa-eye"></i> View Details
+                                </a>
+                                <a href="#" class="btn btn-secondary">
+                                    <i class="fas fa-images"></i> Photos
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-history"></i>
+                        <h3>No Past Events</h3>
+                        <p>No past events found in the system.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => {
+                content.style.display = 'none';
+            });
+
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName + '-events').style.display = 'block';
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html> 

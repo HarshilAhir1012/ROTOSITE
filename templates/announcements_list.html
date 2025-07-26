@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Announcement Management{% endblock %}
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Announcements</h1>
+    <a href="{{ url_for('create_announcement') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg shadow-md transition duration-300">
+        + Create Announcement
+    </a>
+</div>
+
+<div class="bg-white shadow-lg rounded-lg overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full leading-normal">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="px-5 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Title</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Status</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Target Audience</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-300 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider">Created</th>
+                    <th class="px-5 py-3 border-b-2 border-gray-300 text-center text-xs font-semibold text-gray-700 uppercase tracking-wider">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for announcement in announcements %}
+                <tr class="hover:bg-gray-50 {% if announcement.pinned %}border-l-4 border-indigo-500{% endif %}">
+                    <td class="px-5 py-4 border-b border-gray-200 text-sm">
+                        <div class="flex items-center">
+                             {% if announcement.pinned %}
+                                <svg class="w-4 h-4 text-indigo-600 mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1.99998C12.2529 1.99998 12.4947 2.0965 12.6749 2.26834L13.407 2.96498C13.565 3.1146 13.6583 3.32134 13.6583 3.53831V9.49998H18.5C18.6883 9.49998 18.8681 9.56266 19.0036 9.67498L19.6749 10.175C19.9249 10.375 20.0249 10.7083 19.9249 11.025C19.8249 11.3416 19.5416 11.5583 19.2083 11.5583H13.6583V18.5C13.6583 18.8833 13.3916 19.2083 13.025 19.2916C12.7083 19.375 12.375 19.275 12.175 19.025L11.675 18.3536C11.5626 18.2181 11.5 18.0383 11.5 17.85V11.5583H5.5C5.11665 11.5583 4.79165 11.2916 4.70831 10.925C4.62498 10.6083 4.72498 10.275 4.97498 10.075L5.64631 9.57498C5.78184 9.46266 5.96165 9.49998 6.14998 9.49998H11.5V3.53831C11.5 3.1146 11.725 2.72498 12.1083 2.55831C12.1345 2.54737 12.1611 2.53831 12.1883 2.53165L12.2749 2.50831C12.4416 2.45831 12.6166 2.45831 12.7833 2.50831L12.8749 2.53165C12.9011 2.53831 12.9277 2.54737 12.9539 2.55831L12.6749 2.26834C12.4947 2.0965 12.2529 1.99998 12 1.99998Z"></path></svg>
+                            {% endif %}
+                            <p class="text-gray-900 font-medium whitespace-no-wrap">{{ announcement.title }}</p>
+                        </div>
+                    </td>
+                    <td class="px-5 py-4 border-b border-gray-200 text-sm">
+                        {% if announcement.status == 'published' %}
+                            <span class="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                                <span aria-hidden class="absolute inset-0 bg-green-200 opacity-50 rounded-full"></span>
+                                <span class="relative">Published</span>
+                            </span>
+                        {% else %}
+                            <span class="relative inline-block px-3 py-1 font-semibold text-gray-700 leading-tight">
+                                <span aria-hidden class="absolute inset-0 bg-gray-200 opacity-50 rounded-full"></span>
+                                <span class="relative">Draft</span>
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td class="px-5 py-4 border-b border-gray-200 text-sm">
+                        {% for audience in announcement.audience %}
+                            <span class="bg-gray-200 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded">{{ audience }}</span>
+                        {% endfor %}
+                    </td>
+                    <td class="px-5 py-4 border-b border-gray-200 text-sm">
+                        <p class="text-gray-900 whitespace-no-wrap">{{ announcement.created_at.split(' ')[0] }}</p>
+                        <p class="text-gray-600 text-xs whitespace-no-wrap">by {{ announcement.created_by }}</p>
+                    </td>
+                    <td class="px-5 py-4 border-b border-gray-200 text-sm text-center">
+                        <div class="flex item-center justify-center space-x-3">
+                            <a href="{{ url_for('edit_announcement', announcement_id=announcement.id) }}" class="text-indigo-600 hover:text-indigo-900" title="Edit">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" /></svg>
+                            </a>
+                            <form action="{{ url_for('delete_announcement', announcement_id=announcement.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this announcement?');" class="inline-block">
+                                <button type="submit" class="text-red-600 hover:text-red-900" title="Delete">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" /></svg>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center py-10 text-gray-500">No announcements found. Create one to get started!</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

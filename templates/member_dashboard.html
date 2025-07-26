@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Dashboard - Rotaract Club LJIET</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a202c;
+            color: #e2e8f0;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #2d3748;
+            color: white;
+            padding: 2rem 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 1px solid #4a5568;
+        }
+
+        .sidebar-header {
+            padding: 0 2rem 2rem;
+            border-bottom: 1px solid #4a5568;
+            margin-bottom: 2rem;
+        }
+
+        .member-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #48bb78;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .member-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .member-role {
+            text-align: center;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .sidebar-nav {
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: #48bb78;
+            transform: translateX(5px);
+        }
+
+        .nav-item i {
+            margin-right: 1rem;
+            width: 20px;
+        }
+
+        .logout-btn {
+            margin-top: auto;
+            background: #e53e3e;
+            border: 1px solid #e53e3e;
+        }
+
+        .logout-btn:hover {
+            background: #c53030;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-text h1 {
+            font-size: 2rem;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-text p {
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+
+        .date-display {
+            background: #2d3748;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            text-align: center;
+            border: 1px solid #4a5568;
+        }
+
+        .current-date {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #48bb78;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #2d3748;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            border: 1px solid #4a5568;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .stat-title {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            font-weight: 500;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            font-size: 0.9rem;
+            color: #10b981;
+        }
+
+        .bg-blue { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .bg-green { background: linear-gradient(135deg, #10b981, #059669); }
+        .bg-orange { background: linear-gradient(135deg, #f59e0b, #d97706); }
+        .bg-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .events-section, .announcements-section {
+            background: #2d3748;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border: 1px solid #4a5568;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #4a5568;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        .view-all-btn {
+            color: #48bb78;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .view-all-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Event Cards */
+        .event-card {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid #4a5568;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            background: #1a202c;
+        }
+
+        .event-card:hover {
+            border-color: #48bb78;
+            box-shadow: 0 2px 10px rgba(72, 187, 120, 0.2);
+        }
+
+        .event-date {
+            background: #667eea;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 60px;
+            margin-right: 1rem;
+        }
+
+        .event-day {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .event-month {
+            font-size: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .event-details h4 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: #e2e8f0;
+        }
+
+        .event-details p {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-location {
+            font-size: 0.8rem;
+            color: #48bb78;
+            font-weight: 500;
+        }
+
+        /* Announcement Cards */
+        .announcement-card {
+            padding: 1rem;
+            border: 1px solid #4a5568;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            background: #1a202c;
+        }
+
+        .announcement-card:hover {
+            border-color: #48bb78;
+            box-shadow: 0 2px 10px rgba(72, 187, 120, 0.2);
+        }
+
+        .announcement-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+        }
+
+        .announcement-content {
+            font-size: 0.9rem;
+            color: #a0aec0;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .announcement-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #718096;
+        }
+
+        .pinned-badge {
+            background: #f59e0b;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2 style="text-align: center; margin-bottom: 1rem; font-size: 1.5rem; font-weight: 600;">Rotaract Admin</h2>
+                <div class="member-avatar">
+                    {% if member_info %}
+                        {{ member_info.name.split()[0][0] }}{{ member_info.name.split()[-1][0] if member_info.name.split()|length > 1 else '' }}
+                    {% else %}
+                        {{ session.username[0].upper() }}
+                    {% endif %}
+                </div>
+                <div class="member-name">
+                    {% if member_info %}
+                        {{ member_info.name }}
+                    {% else %}
+                        {{ session.username }}
+                    {% endif %}
+                </div>
+                <div class="member-role">Club Member</div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/member" class="nav-item active">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+                <a href="/member/events" class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    Event Management
+                </a>
+                <a href="/member/announcements" class="nav-item">
+                    <i class="fas fa-bullhorn"></i>
+                    Announcements
+                </a>
+                <a href="/member/profile" class="nav-item">
+                    <i class="fas fa-user-friends"></i>
+                    Member Management
+                </a>
+                <a href="/member/certificates" class="nav-item">
+                    <i class="fas fa-certificate"></i>
+                    Certificates
+                </a>
+                <a href="/member/activity" class="nav-item">
+                    <i class="fas fa-chart-line"></i>
+                    Activity
+                </a>
+                <a href="/member/settings" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+                <a href="/logout" class="nav-item logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </a>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <div class="welcome-text">
+                    <h1>Welcome back, {{ session.username }}!</h1>
+                    <p>Here's what's happening in your club today.</p>
+                </div>
+                <div class="date-display">
+                    <div class="current-date" id="current-date"></div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon bg-blue">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Events Attended</div>
+                        </div>
+                    </div>
+                    <div class="stat-value">{{ stats.events_attended }}</div>
+                    <div class="stat-change">+2 this month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon bg-green">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Hours Volunteered</div>
+                        </div>
+                    </div>
+                    <div class="stat-value">{{ stats.hours_volunteered }}</div>
+                    <div class="stat-change">+6 this month</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon bg-orange">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Days as Member</div>
+                        </div>
+                    </div>
+                    <div class="stat-value">{{ stats.days_member }}</div>
+                    <div class="stat-change">Active member</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-icon bg-purple">
+                            <i class="fas fa-calendar-plus"></i>
+                        </div>
+                        <div>
+                            <div class="stat-title">Upcoming Events</div>
+                        </div>
+                    </div>
+                    <div class="stat-value">{{ stats.upcoming_events }}</div>
+                                            <div class="stat-change">Next: {{ upcoming_events[0].title[:20] + '...' if upcoming_events and upcoming_events[0].title|length > 20 else upcoming_events[0].title if upcoming_events else 'None' }}</div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Events Section -->
+                <div class="events-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Upcoming Events</h2>
+                        <a href="#" class="view-all-btn">View All Events</a>
+                    </div>
+                    
+                    {% if upcoming_events %}
+                        {% for event in upcoming_events %}
+                        <div class="event-card">
+                            <div class="event-date">
+                                                        <div class="event-day">{{ event.date.split('-')[2] }}</div>
+                        <div class="event-month">{{ (event.date.split('-')[1]|int)|month_name }}</div>
+                            </div>
+                            <div class="event-details">
+                                <h4>{{ event.title }}</h4>
+                                <p>{{ event.description[:100] }}{% if event.description|length > 100 %}...{% endif %}</p>
+                                <div class="event-location">
+                                    <i class="fas fa-map-marker-alt"></i> {{ event.location }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="text-align: center; color: #666; padding: 2rem;">No upcoming events at the moment.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Announcements Section -->
+                <div class="announcements-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Announcements</h2>
+                        <a href="#" class="view-all-btn">View All</a>
+                    </div>
+                    
+                    {% if recent_announcements %}
+                        {% for announcement in recent_announcements %}
+                        <div class="announcement-card">
+                            {% if announcement.pinned %}
+                                <div class="pinned-badge">Pinned</div>
+                            {% endif %}
+                            <div class="announcement-title">{{ announcement.title }}</div>
+                            <div class="announcement-content">{{ announcement.content[:150] }}{% if announcement.content|length > 150 %}...{% endif %}</div>
+                            <div class="announcement-meta">
+                                <span>{{ announcement.created_at.split(' ')[0] }}</span>
+                                <span>by {{ announcement.created_by }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="text-align: center; color: #666; padding: 2rem;">No recent announcements.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add current date
+        function updateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        // Add hover effects and interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDate();
+            
+            // Add click handlers for navigation
+            const navItems = document.querySelectorAll('.nav-item:not(.logout-btn)');
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
